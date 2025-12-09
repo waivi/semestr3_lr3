@@ -1,0 +1,115 @@
+g++ -std=c++17 -o dbms main.cpp array.cpp SList.cpp DList.cpp Stack.cpp Queue.cpp Tree.cpp Hash_map.cpp
+./dbms --interactive
+
+g++ -std=c++17 -O2 -o benchmark benchmark.cpp array.cpp SList.cpp DList.cpp Stack.cpp Queue.cpp Tree.cpp Hash_map.cpp main_benchmark.cpp
+./benchmark
+
+# Создание и заполнение массива
+./dbms --query "MARRAY test_arr MADDEND 'Первый элемент'"
+./dbms --query "MARRAY test_arr MADDEND 'Второй элемент'"
+./dbms --query "MARRAY test_arr MADDEND 'Третий элемент'"
+./dbms --query "MARRAY test_arr MPRINT"
+
+# Сохранение в текстовый файл
+./dbms --query "SAVE ARRAY test_arr TEXT test_array.txt"
+
+# Сохранение в бинарный файл
+./dbms --query "SAVE ARRAY test_arr BINARY test_array.bin"
+
+# Загрузка в новый массив
+./dbms --query "LOAD ARRAY loaded_arr TEXT test_array.txt"
+./dbms --query "MARRAY loaded_arr MPRINT"
+
+
+# Создание и заполнение списка
+./dbms --query "SLIST test_list SLPUSH_HEAD 'Голова'"
+./dbms --query "SLIST test_list SLPUSH_TAIL 'Хвост'"
+./dbms --query "SLIST test_list SLPUSH_AFTER 'Голова' 'Середина'"
+./dbms --query "SLIST test_list SLPRINT_FORWARD"
+
+# Сериализация
+./dbms --query "SAVE SLIST test_list TEXT test_slist.txt"
+./dbms --query "SAVE SLIST test_list BINARY test_slist.bin"
+
+# Десериализация
+./dbms --query "LOAD SLIST loaded_list TEXT test_slist.txt"
+./dbms --query "SLIST loaded_list SLPRINT_FORWARD"
+
+# Создание и заполнение
+./dbms --query "DLIST test_dlist DLPUSH_HEAD 'Начало'"
+./dbms --query "DLIST test_dlist DLPUSH_TAIL 'Конец'"
+./dbms --query "DLIST test_dlist DLPUSH_BEFORE 'Конец' 'Перед концом'"
+./dbms --query "DLIST test_dlist DLPRINT_FORWARD"
+./dbms --query "DLIST test_dlist DLPRINT_BACKWARD"
+
+# Сериализация
+./dbms --query "SAVE DLIST test_dlist TEXT test_dlist.txt"
+./dbms --query "LOAD DLIST new_dlist TEXT test_dlist.txt"
+
+# Создание и заполнение стека
+./dbms --query "STACK test_stack SPUSH 'Уровень1'"
+./dbms --query "STACK test_stack SPUSH 'Уровень2'"
+./dbms --query "STACK test_stack SPUSH 'Уровень3'"
+./dbms --query "STACK test_stack SPRINT"
+
+# Сохранение и восстановление
+./dbms --query "SAVE STACK test_stack TEXT test_stack.txt"
+./dbms --query "LOAD STACK new_stack TEXT test_stack.txt"
+./dbms --query "STACK new_stack SPRINT"
+
+
+# Создание и заполнение очереди
+./dbms --query "QUEUE test_queue QPUSH 'Первый'"
+./dbms --query "QUEUE test_queue QPUSH 'Второй'"
+./dbms --query "QUEUE test_queue QPUSH 'Третий'"
+./dbms --query "QUEUE test_queue QPRINT"
+
+# Сериализация
+./dbms --query "SAVE QUEUE test_queue BINARY test_queue.bin"
+./dbms --query "LOAD QUEUE new_queue BINARY test_queue.bin"
+./dbms --query "QUEUE new_queue QPRINT"
+
+# Создание и заполнение дерева
+./dbms --query "TREE test_tree TINSERT 'Москва'"
+./dbms --query "TREE test_tree TINSERT 'Париж'"
+./dbms --query "TREE test_tree TINSERT 'Лондон'"
+./dbms --query "TREE test_tree TINSERT 'Берлин'"
+./dbms --query "TREE test_tree TINSERT 'Токио'"
+./dbms --query "TREE test_tree TPRINT_INORDER"
+./dbms --query "TREE test_tree TPRINT_TREE"
+
+
+# Сохранение структуры дерева
+./dbms --query "SAVE TREE test_tree TEXT test_tree.txt"
+./dbms --query "SAVE TREE test_tree BINARY test_tree.bin"
+
+# Загрузка
+./dbms --query "LOAD TREE loaded_tree TEXT test_tree.txt"
+./dbms --query "TREE loaded_tree TPRINT_INORDER"
+
+
+# Создание и заполнение
+./dbms --query "HSET test_hash HADD 101 500"
+./dbms --query "HSET test_hash HADD 202 750"
+./dbms --query "HSET test_hash HADD 303 1000"
+./dbms --query "HSET test_hash HADD 404 250"
+./dbms --query "HSET test_hash HPRINT"
+
+# Сериализация
+./dbms --query "SAVE HASHTABLE test_hash TEXT test_hash.txt"
+./dbms --query "SAVE HASHTABLE test_hash BINARY test_hash.bin"
+
+# Загрузка
+./dbms --query "LOAD HASHTABLE loaded_hash TEXT test_hash.txt"
+./dbms --query "HSET loaded_hash HPRINT"
+
+тесты:
+
+export PATH="$HOME/.local/bin:$PATH"
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+make tests
+./tests --log_level=test_suite
+gcovr -r .. --html --html-details -o coverage_report.html
+gcovr -r .. -s
+xdg-open coverage_report.html
