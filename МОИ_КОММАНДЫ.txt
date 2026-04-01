@@ -1,0 +1,73 @@
+go mod init lr3go
+go build -o dbms   
+go run array.go slist.go dlist.go stack.go queue.go tree.go hashmap.go serialization.go main.go
+
+пример команд:
+> MARRAY test MADDEND "Hello"
+> MARRAY test MADDEND "World"
+> SAVE ARRAY test TEXT array.txt
+> SAVE ARRAY test BINARY array.bin
+
+> SLIST test SLPUSH_HEAD "First"
+> SLIST test SLPUSH_TAIL "Last"
+> SAVE SLIST test TEXT slist.txt
+> SAVE SLIST test BINARY slist.bin
+
+> DLIST test DLPUSH_HEAD "Head"
+> DLIST test DLPUSH_TAIL "Tail"
+> SAVE DLIST test TEXT dlist.txt
+> SAVE DLIST test BINARY dlist.bin
+
+> STACK test SPUSH "Bottom"
+> STACK test SPUSH "Top"
+> SAVE STACK test TEXT stack.txt
+> SAVE STACK test BINARY stack.bin
+
+> QUEUE test QPUSH "First"
+> QUEUE test QPUSH "Second"
+> SAVE QUEUE test TEXT queue.txt
+> SAVE QUEUE test BINARY queue.bin
+
+> TREE test TINSERT "Apple"
+> TREE test TINSERT "Banana"
+> SAVE TREE test TEXT tree.txt
+> SAVE TREE test BINARY tree.bin
+
+> HSET test HADD 1 100
+> HSET test HADD 2 200
+> SAVE HASHTABLE test TEXT hash.txt
+> SAVE HASHTABLE test BINARY hash.bin
+
+> LOAD ARRAY test TEXT array.txt loaded_txt
+> LOAD ARRAY test BINARY array.bin loaded_bin
+
+> LOAD SLIST test TEXT slist.txt loaded_txt
+> LOAD SLIST test BINARY slist.bin loaded_bin
+
+> LOAD DLIST test TEXT dlist.txt loaded_txt
+> LOAD DLIST test BINARY dlist.bin loaded_bin
+
+> LOAD STACK test TEXT stack.txt loaded_txt
+> LOAD STACK test BINARY stack.bin loaded_bin
+
+> LOAD QUEUE test TEXT queue.txt loaded_txt
+> LOAD QUEUE test BINARY queue.bin loaded_bin
+
+> LOAD TREE test TEXT tree.txt loaded_txt
+> LOAD TREE test BINARY tree.bin loaded_bin
+
+> LOAD HASHTABLE test TEXT hash.txt loaded_txt
+> LOAD HASHTABLE test BINARY hash.bin loaded_bin
+
+
+tests
+go clean -testcache     //сброс кэша
+
+go mod init lr3go
+go mod tidy
+go test ./... -v        //обычная проверка убедиться что тесты работают
+go test ./... -cover       //увидеть процент поррытия
+
+go test ./... -coverprofile=coverage.out
+go tool cover -html=coverage.out -o coverage.html
+xdg-open coverage.html

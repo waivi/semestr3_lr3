@@ -1,0 +1,5 @@
+2
+"Apple"
+BLACK
+"Banana"
+RED
